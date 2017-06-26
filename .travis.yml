@@ -13,11 +13,6 @@ branches:
   only:
     - 8.x-1.x
 
-cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
-
 before_install:
   - nvm install 6.11.0
   - nvm use 6.11.0
