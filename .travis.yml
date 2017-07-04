@@ -46,7 +46,7 @@ after_script:
 before_deploy:
   - "ls -la"
   - "pwd"
-  - "zip -r contentacms.zip ./"
+  - "zip -r contentacms.zip $HOME/contentacms/*"
 # Deploying GitHub Releases works only for tags, not for branches.
 # Due to this issue we most tag every release that we wish to publish
 deploy:
