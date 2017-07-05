@@ -59,6 +59,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    all_branches: true
     repo: contentacms/contenta_jsonapi
     php: 7.1
