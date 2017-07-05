@@ -13,6 +13,7 @@ env:
   global:
     - PROJECT_NAME=contentacms
     - PROJECT_BASE_PATH=$HOME/$PROJECT_NAME
+    - PROJECT_MAIN_BRANCH=feature/91_Generate_GitHub_Releases #8.x-1.x
 
 branches:
   only:
@@ -53,7 +54,7 @@ before_deploy:
   - "ls -la"
   - "pwd"
   - "export TAG_NAME=app_release-`date +%Y-%m-%d`_build_$TRAVIS_BUILD_NUMBER"
-  - "CURRENT_PATH=$(pwd) && cd $PROJECT_BASE_PATH && zip -r $CURRENT_PATH/$TAG_NAME.zip * && cd $CURRENT_PATH"
+  - "CURRENT_PATH=$(pwd) && cd $HOME && zip -r $CURRENT_PATH/$TAG_NAME.zip $PROJECT_NAME/* && cd $CURRENT_PATH"
   - "ls -la"
   - "echo \"$TRAVIS_TAG\""
   - "echo \"TAG_NAME\""
@@ -69,7 +70,8 @@ deploy:
   file:
     - "$TAG_NAME.zip"
   skip_cleanup: true
+  name: "$TAG_NAME"
   on:
-    branch: feature/91_Generate_GitHub_Releases
-    repo: contentacms/contenta_jsonapi
+    branch: "$PROJECT_MAIN_BRANCH"
+    repo: "$TRAVIS_REPO_SLUG"
     php: 7.1
