@@ -58,5 +58,5 @@ deploy:
   file: contentacms.zip
   skip_cleanup: true
   on:
-    branch: feature/91_Generate_GitHub_Releases
+    all_branches: true
     tags: true
