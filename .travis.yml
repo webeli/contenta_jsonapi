@@ -10,8 +10,9 @@ php:
   - 5.6
 
 env:
-  - PROJECT_NAME=contentacms
-  - PROJECT_BUILD_PATH=$HOME/$PROJECT_NAME
+  global:
+    - PROJECT_NAME=contentacms
+    - PROJECT_BUILD_PATH=$HOME/$PROJECT_NAME
 
 branches:
   only:
