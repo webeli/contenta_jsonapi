@@ -26,7 +26,7 @@ before_install:
 
 install:
   - yarn install
-  - composer run-script install-contenta $HOME/contentacms --timeogit lout=0
+  - composer run-script install-contenta $HOME/contentacms --timeout=0
 
 before_script:
   - export DISPLAY=:99.0
