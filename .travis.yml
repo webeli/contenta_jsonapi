@@ -51,22 +51,19 @@ after_script:
   - killall php
 
 before_deploy:
-  - "ls -la"
-  - "pwd"
-  - "export TAG_NAME=app_release-`date +%Y-%m-%d`_build_$TRAVIS_BUILD_NUMBER"
-  - "CURRENT_PATH=$(pwd) && cd $HOME && zip -r $CURRENT_PATH/$TAG_NAME.zip $PROJECT_NAME/* && cd $CURRENT_PATH"
-  - "ls -la"
-  - "echo \"$TRAVIS_TAG\""
-  - "echo \"TAG_NAME\""
-  - "export TRAVIS_TAG=${TRAVIS_TAG:-$TAG_NAME}"
-  - "echo \"$TRAVIS_TAG\""
+  # Set Deployment Variables
+  - ./scripts/deployment/travis_before_deploy.sh set_deploy_vars
+  # Remove Site files
+  -  ./scripts/deployment/travis_before_deploy.sh rm_site $PROJECT_BUILD_PATH/web
+  # Zip Folder
+  - ./scripts/deployment/travis_before_deploy.sh zip_folder $HOME $TRAVIS_TAG
 
 # Deploying GitHub Releases works only for tags, not for branches.
 # Due to this issue we most tag every release that we wish to publish
 deploy:
   provider: releases
   api_key:
-    secure: Tq9CTZSNfP+A4lh4pZoB7yBW5tZqv9Um79/Ff7bekopUaam/FtLjxSREabamSKBvgTPwVNNPo/cY5wPnTNwkUGDogzuhN3Y+Quyeq3Sa/YNcANPVS9gQBkrCsnY0/htiTS6btC4SvKwz7Vosq+2+TZ1Q/bKGLejmM3mT6mQZyZuqYg83/2h8uuOr75bTeQvnFxbk4x7lsxYtcQ3gejKcmkC0a4dnF55Zi0ISvtic36EfRle94MxrHXzn7Z1cnMmb1+0GVKE9ffRLMd+/cR+oJLchS76uUzPeo8Oto+na7ke4klZVYMr2z7qyadH1hl3x41OY1wl68AlsOebfmdpVz63mefjyl/+Sl102DeXKIKoIiEyz4L5It+5/4pLy274Yy6TeLdnaP3uB9Y63Cy39+hXlGOMSOA24HG+fMZYaXFv8B9XcGqy2poDR2jRik+ypSJO6fsxJCfEFba+O/yKiY5Er8cWsWPdhYx7E/AIwXJh0xSLNOhnrA2jUUqgMjuwoI60PoKONxPzJUKDl1FBCBq1FZnFvAPADRX3x0FdPrqS5xy55g7u6cBj+7T9Xu9u0c7rvXGXUbJ77bxH5qJtuJUtJVQ4TGQ+XX04FdvrX7I/4JTjcspKpb8Swo7CIXEpUIpeYHIaU6ikGvxPPOfFXg73428wMRTXVmEF9bqcfuTg=
+    secure: $SECURE_TOKEN
   file:
     - "$TAG_NAME.zip"
   skip_cleanup: true
@@ -75,3 +72,6 @@ deploy:
     branch: "$PROJECT_MAIN_BRANCH"
     repo: "$TRAVIS_REPO_SLUG"
     php: 7.1
+
+#after_failure:
+#  - ./scripts/deployment/create_github_issue.sh post_github_issue
