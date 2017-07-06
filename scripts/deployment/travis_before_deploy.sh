@@ -15,17 +15,24 @@ validate_env_var() {
 # Set Deployment Variable Function
 set_deploy_vars() {
     # Project Variables
-    PROJECT_NAME="${PROJECT_NAME:-ContentaCMS}"
-    PROJECT_BUILD_PATH="${PROJECT_BUILD_PATH:-$HOME/$PROJECT_NAME}"
+    export PROJECT_NAME="${PROJECT_NAME:-ContentaCMS}"
+    echo "PROJECT_NAME=$PROJECT_NAME"
+    export PROJECT_BUILD_PATH="${PROJECT_BUILD_PATH:-$HOME/$PROJECT_NAME}"
+    echo "PROJECT_BUILD_PATH=$PROJECT_BUILD_PATH"
 
     # Travis Variables
-    TRAVIS_BRANCH="${TRAVIS_BRANCH:-TAG}"
-    TRAVIS_BUILD_NUMBER="${TRAVIS_BUILD_NUMBER:-$(date +%s)}"
-    TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$PROJECT_BUILD_PATH}"
+    export TRAVIS_BRANCH="${TRAVIS_BRANCH:-TAG}"
+    echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
+    export TRAVIS_BUILD_NUMBER="${TRAVIS_BUILD_NUMBER:-$(date +%s)}"
+    echo "TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER"
+    export TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$PROJECT_BUILD_PATH}"
+    echo "TRAVIS_BUILD_DIR=$TRAVIS_BUILD_DIR"
 
     # Custom tag name that may be used if travis build is not a tag
-    TAG_NAME="${PROJECT_NAME}_${TRAVIS_BRANCH}_release-$( date +%Y-%m-%d)_build_${TRAVIS_BUILD_NUMBER}"
-    TRAVIS_TAG="${TRAVIS_TAG:-$TAG_NAME}"
+    export TAG_NAME="${PROJECT_NAME}_${TRAVIS_BRANCH}_release-$( date +%Y-%m-%d)_build_${TRAVIS_BUILD_NUMBER}"
+    echo "TAG_NAME=$TAG_NAME"
+    export TRAVIS_TAG="${TRAVIS_TAG:-$TAG_NAME}"
+    echo "TRAVIS_TAG=$TRAVIS_TAG"
 }
 
 # Zip Folder Function
