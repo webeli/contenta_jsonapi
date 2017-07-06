@@ -73,4 +73,6 @@ rm_site(){
            $default_dir/files
 }
 
+
+set_deploy_vars
 $@

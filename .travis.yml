@@ -51,8 +51,6 @@ after_script:
   - killall php
 
 before_deploy:
-  # Set Deployment Variables
-  - ./scripts/deployment/travis_before_deploy.sh set_deploy_vars
   # Remove Site files
   - ./scripts/deployment/travis_before_deploy.sh rm_site $PROJECT_BUILD_PATH/web
   # Zip Folder
